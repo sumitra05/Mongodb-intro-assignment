@@ -1,0 +1,251 @@
+*/
+
+<--------- MAKE DATABASE  + CHECK  IN WHICH DATA YOU ARE--------->
+
+use assignment
+switched to db assignment
+
+> db
+assignment
+
+
+<-----------CREATE COLLECTION + SHOW COLLECTIONS--------->
+> db.createCollection("users")
+{ "ok" : 1 }
+
+> show collections
+users
+
+
+<---------------INSERT ONE ------------->
+db.users.insert({"first_name" : "Sumitra", "last_name" : "Awadhiya", "email" : "sumitra123@gmail.com", "gender" : "Female", "ip_address" : "0.1.2.3.4.5.6", "age" : 25})
+WriteResult({ "nInserted" : 1 })
+
+
+
+<--------INSERT MANY---------->
+db.users.insertMany([{"name" : "Aakash", "age" : 23},{"name" : "Rishi", "age" : 22},{"name" : "Sanjeev", "age" : 22},{"name" : "Arti", "age" : 23},{"name" : "Aditi", "age" : 22},{"name" : "Suraj", "age" : 24}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("622766f995f38e552a1ad577"),
+		ObjectId("622766f995f38e552a1ad578"),
+		ObjectId("622766f995f38e552a1ad579"),
+		ObjectId("622766f995f38e552a1ad57a"),
+		ObjectId("622766f995f38e552a1ad57b"),
+		ObjectId("622766f995f38e552a1ad57c")
+	]
+}
+
+
+
+<----FIND DATA IN ROW METHOD-------->
+ db.users.find({})
+{ "_id" : ObjectId("6227652e95f38e552a1ad576"), "first_name" : "Sumitra", "last_name" : "Awadhiya", "email" : "sumitra123@gmail.com", "gender" : "Female", "ip_address" : "0.1.2.3.4.5.6", "age" : 25 }
+{ "_id" : ObjectId("622766f995f38e552a1ad577"), "name" : "Aakash", "age" : 23 }
+{ "_id" : ObjectId("622766f995f38e552a1ad578"), "name" : "Rishi", "age" : 22 }
+{ "_id" : ObjectId("622766f995f38e552a1ad579"), "name" : "Sanjeev", "age" : 22 }
+{ "_id" : ObjectId("622766f995f38e552a1ad57a"), "name" : "Arti", "age" : 23 }
+{ "_id" : ObjectId("622766f995f38e552a1ad57b"), "name" : "Aditi", "age" : 22 }
+{ "_id" : ObjectId("622766f995f38e552a1ad57c"), "name" : "Suraj", "age" : 24 }
+
+
+
+<---------FIND ALL DATA-------->
+db.users.find({}).pretty()
+{
+	"_id" : ObjectId("6227652e95f38e552a1ad576"),
+	"first_name" : "Sumitra",
+	"last_name" : "Awadhiya",
+	"email" : "sumitra123@gmail.com",
+	"gender" : "female",
+	"ip_address" : "0.1.2.3.4.5.6",
+	"age" : 25
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad577"),
+	"name" : "Aakash",
+	"age" : 23
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad578"),
+	"name" : "Rishi",
+	"age" : 22
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad579"),
+	"name" : "Sanjeev",
+	"age" : 22
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57a"),
+	"name" : "Arti",
+	"age" : 23
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Aditi",
+	"age" : 22
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57c"),
+	"name" : "Suraj",
+	"age" : 24
+}
+
+
+<--------FIND ONE----------->
+db.users.findOne({"first_name":"Sumitra"})
+{
+	"_id" : ObjectId("6227652e95f38e552a1ad576"),
+	"first_name" : "Sumitra",
+	"last_name" : "Awadhiya",
+	"email" : "sumitra123@gmail.com",
+	"gender" : "Female",
+	"ip_address" : "0.1.2.3.4.5.6",
+	"age" : 25
+}
+
+
+
+<----------SET CITY IN  USER OF ARTI---------->
+db.users.update({"name" : "Arti"},{$set : {"City" : "Rewa"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.users.findOne({"name":"Arti"})
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Arti",
+	"age" : 23,
+	"City" : "Rewa"
+}
+
+
+
+<----------FIND MANY +  USERS.FIND-------->
+ db.users.updateMany({}, {$set : {"country" : "India"}})
+{ "acknowledged" : true, "matchedCount" : 7, "modifiedCount" : 7 }
+> db.users.find({}).pretty()
+{
+	"_id" : ObjectId("6227652e95f38e552a1ad576"),
+	"first_name" : "Sumitra",
+	"last_name" : "Awadhiya",
+	"email" : "sumitra123@gmail.com",
+	"gender" : "Female",
+	"ip_address" : "0.1.2.3.4.5.6",
+	"age" : 25,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad577"),
+	"name" : "Aakash",
+	"age" : 23,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad578"),
+	"name" : "Rishi",
+	"age" : 22,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad579"),
+	"name" : "Sanjeev",
+	"age" : 22,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57a"),
+	"name" : "Arti",
+	"age" : 23,
+    "City" : "Rewa"
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Aditi",
+	"age" : 22,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57c"),
+	"name" : "Suraj",
+	"age" : 24,
+	"country" : "India"
+}
+
+
+<---------UNSET DATA ------------->
+db.users.update({"name" : "Arti"}, {$unset: {"City" : "Rewa"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+ db.users.findOne({"name":"Arti"})
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Arti",
+	"age" : 23,
+	"country" : "India"
+}
+
+
+<-------FINDONE -------->
+ db.users.findOne({"name":"Arti"})
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Arti",
+	"age" : 23,
+	"country" : "India"
+}
+
+
+<------REMOVE  NAME SANJEEV --------->
+db.users.remove({"name" : "Sanjeev"})
+WriteResult({ "nRemoved" : 1 })
+
+<-----FIND DATA HERE IS NO SANJEEV ------->
+> db.users.find({}).pretty()
+{
+	"_id" : ObjectId("6227652e95f38e552a1ad576"),
+	"first_name" : "Sumitra",
+	"last_name" : "Awadhiya",
+	"email" : "sumitra123@gmail.com",
+	"gender" : "Female",
+	"ip_address" : "0.1.2.3.4.5.6",
+	"age" : 25,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad577"),
+	"name" : "Aakash",
+	"age" : 23,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad578"),
+	"name" : "Rishi",
+	"age" : 22,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57a"),
+	"name" : "Arti",
+	"age" : 23,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57b"),
+	"name" : "Aditi",
+	"age" : 22,
+	"country" : "India"
+}
+{
+	"_id" : ObjectId("622766f995f38e552a1ad57c"),
+	"name" : "Suraj",
+	"age" : 25,
+	"country" : "India"
+}
+
+> db.users.deleteOne({})
+> db.users.deleteMany({})
+> db.dropDatabase()
+
+
+*/
